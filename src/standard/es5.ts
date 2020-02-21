@@ -150,10 +150,12 @@ export const es5: ES5Map = {
     // hoisting
     for (const node of program.body) {
       if (isFunctionDeclaration(node)) {
+        // 结点是函数，继续递归
         path.evaluate(path.createChild(node));
       } else if (isVariableDeclaration(node)) {
         for (const declaration of node.declarations) {
           if (node.kind === Kind.Var) {
+            // var 作用域提升
             scope.var((declaration.id as types.Identifier).name, undefined);
           }
         }
@@ -172,6 +174,7 @@ export const es5: ES5Map = {
       return undefined;
     }
     const $var = scope.hasBinding(node.name);
+    // 变量定义
     if ($var) {
       return $var.value;
     } else {
@@ -210,9 +213,7 @@ export const es5: ES5Map = {
   BlockStatement(path) {
     const { node: block, scope } = path;
 
-    let blockScope: Scope = !scope.isolated
-      ? scope
-      : scope.createChild(ScopeType.Block);
+    let blockScope: Scope;
 
     if (scope.isolated) {
       blockScope = scope.createChild(ScopeType.Block);
@@ -224,6 +225,7 @@ export const es5: ES5Map = {
     blockScope.isolated = true;
 
     // hoisting
+    // 作用域提升
     for (const node of block.body) {
       if (isFunctionDeclaration(node)) {
         path.evaluate(path.createChild(node));
@@ -1104,8 +1106,8 @@ export const es5: ES5Map = {
     return target instanceof Prototype
       ? target
       : isFunction(target)
-        ? target.bind(obj)
-        : target;
+      ? target.bind(obj)
+      : target;
   },
   AssignmentExpression(path) {
     const { node, scope } = path;

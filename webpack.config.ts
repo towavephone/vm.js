@@ -31,7 +31,7 @@ const webpackConfig: webpack.Configuration = {
     ]
   },
   devtool: "source-map",
-  mode: "production",
+  mode: "development",
   plugins: []
 };
 

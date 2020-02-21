@@ -48,6 +48,7 @@ export const DEFAULT_CONTEXT: ISandBox = {
 };
 
 // need to polyfill by user
+/* 用JS编写的JS代码覆盖率工具 https://github.com/gotwarlost/istanbul */
 /* istanbul ignore if */
 if (typeof Promise !== UNDEFINED) {
   DEFAULT_CONTEXT.Promise = Promise;

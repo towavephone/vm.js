@@ -16,6 +16,7 @@ const visitors: IEcmaScriptMap = {
 };
 
 export default function evaluate(path: Path<types.Node>) {
+  // 递归执行下去
   path.evaluate = evaluate;
   const handler = visitors[path.node.type];
   return handler(path);

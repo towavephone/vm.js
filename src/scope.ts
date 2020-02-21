@@ -21,6 +21,7 @@ export class Scope {
    * console.log(b); // 1
    *
    */
+  // 变量是否具有侵入式，大括号内部的变量可以在外部使用
   public invasive: boolean = false;
 
   /**
@@ -28,6 +29,7 @@ export class Scope {
    * The top scope's level is 0.
    * every child scope will increase 1
    */
+  // 作用域嵌套的层级
   public level: number = 0;
 
   // scope context
@@ -36,6 +38,7 @@ export class Scope {
   // isolated scope.
   // if isolated = true
   // it will create a new scope in blockStatement
+  // 独立作用域
   public isolated: boolean = true;
 
   // the scope fork from witch scope
@@ -175,6 +178,7 @@ export class Scope {
       const $var = targetScope.content[varName];
       if ($var.kind !== Kind.Var) {
         // only cover var with var, not const and let
+        // 非 var 的变量不能重复定义
         throw ErrDuplicateDeclard(varName);
       } else {
         if (targetScope.level === 0 && targetScope.context[varName]) {

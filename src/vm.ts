@@ -19,6 +19,7 @@ export function runInContext(
   context: Context,
   preset: presetMap = presetMap.env
 ) {
+  // 生成顶层作用域
   const scope = new Scope(ScopeType.Root, null);
   scope.level = 0;
   scope.invasive = true;
@@ -31,6 +32,7 @@ export function runInContext(
   scope.const(MODULE, $module);
   scope.var(EXPORTS, $exports);
 
+  // 词法分析，分离出各个关键字
   const ast = parse(code, {
     sourceType: "module",
     plugins: [
@@ -47,7 +49,7 @@ export function runInContext(
   const path = new Path(ast, null, scope, {}, new Stack());
   path.preset = preset;
   path.evaluate = evaluate;
-
+  // 语法分析，递归执行对应不同关键字类型的操作
   evaluate(path);
 
   // exports
